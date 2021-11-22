@@ -33,6 +33,8 @@
 function todos(state, action) {
     if (action.type === 'ADD_TODO') {
         return state.concat([action.todo])
+    } else if (action.type === 'REMOVE_TODO') {
+        return state.filter((todo) => todo.id !== action.id)
     }
 
     return state
@@ -54,8 +56,14 @@ function createStore(reducer) {
         }
     }
 
+    const dispatch = (action) => {
+        state = reducer(state, action)
+        listeners.forEach((listener) => listener())
+    }
+
     return {
         getState,
-        subscribe
+        subscribe,
+        dispatch
     }
 }
