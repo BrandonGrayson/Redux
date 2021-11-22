@@ -35,9 +35,15 @@ function todos(state, action) {
         return state.concat([action.todo])
     } else if (action.type === 'REMOVE_TODO') {
         return state.filter((todo) => todo.id !== action.id)
+    } else if (action.type === 'TOGGLE_TODO') {
+        return state.map((todo) => todo.id !== action.id ? todo : {
+            name: todo.name,
+            id: todo.id,
+            complete: !todo.complete 
+        })
+    } else {
+        return state
     }
-
-    return state
 }
 
 
