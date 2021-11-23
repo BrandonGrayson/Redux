@@ -42,6 +42,8 @@ function todos(state = [], action) {
             return state.filter((todo) => todo.id !== action.id ? todo :
                 Object.assign({}, todo, {complete: !todo.complete})
             )
+        default :
+        return state
     }
 }
 
