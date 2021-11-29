@@ -23,8 +23,8 @@
       return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36)
     }
 
-    // App Code
-    const ADD_TODO = 'ADD_TODO'
+  // App Code
+  const ADD_TODO = 'ADD_TODO'
     const REMOVE_TODO = 'REMOVE_TODO'
     const TOGGLE_TODO = 'TOGGLE_TODO'
     const ADD_GOAL = 'ADD_GOAL'
@@ -65,6 +65,24 @@
       }
     }
 
+    const checker = (store) => (next) => (action) => {
+      if (
+        action.type === ADD_TODO &&
+        action.todo.name.toLowerCase().indexOf('bitcoin') !== -1
+      ) {
+        return alert("Nope. That's a bad idea.")
+      }
+
+      if (
+        action.type === ADD_GOAL &&
+        action.goal.name.toLowerCase().indexOf('bitcoin') !== -1
+      ) {
+        return alert("Nope. That's a bad idea.")
+      }
+
+      return next(action)
+    }
+
     // Reducer function
     function todos (state = [], action) {
       switch(action.type) {
@@ -95,7 +113,7 @@
     const store = Redux.createStore(Redux.combineReducers({
       todos,
       goals,
-    }))
+    }), Redux.applyMiddleware(checker))
 
     store.subscribe(() => {
       const { goals, todos } = store.getState()
